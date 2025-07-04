@@ -29,15 +29,18 @@
     .event__title{margin:0;font-size:.875rem;font-weight:700;color:#333}
     .event__subtitle{font-size:.75rem;color:#858585}
   </style>
-  <link rel="stylesheet" href="/dz-perfomance-vite/assets/styles-C3BOWme5.css" media="print" onload="this.media='all'">
-  <noscript></noscript>
   <script>
-    // Предзагрузка CSS для ускорения
+    // Асинхронная загрузка CSS без блокировки рендеринга
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'styles.css';
+    link.media = 'print';
+    link.onload = function() {
+      this.media = 'all';
+    };
     document.head.appendChild(link);
   </script>
+  <noscript></noscript>
   <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-W_fb7eh-.js"></script>
   <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-CM0m7zQ3.css">
 </head>
