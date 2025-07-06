@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Оптимизация для поисковых систем
+Sitemap: https://dolgikhgram.github.io/dz-perfomance-vite/sitemap.xml 

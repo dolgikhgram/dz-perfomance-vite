@@ -1,0 +1,31 @@
+# Настройки кеширования для статических ресурсов
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование для шрифтов
+*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование для изображений
+*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование для CSS и JS файлов
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML файл не кешируется для обновлений
+*.html
+  Cache-Control: no-cache, no-store, must-revalidate 
