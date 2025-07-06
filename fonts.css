@@ -1,8 +1,0 @@
-/* Оптимизированная загрузка шрифтов */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/dz-perfomance-vite/assets/lato.woff2') format('woff2');
-} 
