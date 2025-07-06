@@ -1,0 +1,20 @@
+{
+  "name": "DZ Performance",
+  "short_name": "DZ Perf",
+  "description": "Умный дом - панель управления",
+  "start_url": "/dz-perfomance-vite/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FFD93E",
+  "icons": [
+    {
+      "src": "/dz-perfomance-vite/assets/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "scope": "/dz-perfomance-vite/",
+  "lang": "ru"
+} 
