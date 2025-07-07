@@ -51,6 +51,80 @@
     .event__title{margin:0;font-size:.875rem;font-weight:700;color:#333}
     .event__subtitle{font-size:.75rem;color:#858585}
     .footer{display:flex;flex:0 0 auto;align-items:center;height:4rem;margin-top:auto;padding:0 2.5rem}
+    
+    /* Mobile and responsive styles */
+    @media (max-width:768px){
+      .header{height:4rem;margin-bottom:0;padding:0 0 0 1.25rem;border-bottom:none}
+      .header__links{display:none;position:absolute;z-index:1;top:100%;left:0;box-sizing:border-box;flex-direction:column;width:100%;padding:1.25rem;background:#fff;box-shadow:0 2px 6px 0 rgba(197,186,186,.5)}
+      .header__links-toggled{display:flex;animation:hideMenu .3s ease-in-out 1;animation-fill-mode:both}
+      .header__links_opened{display:flex;visibility:visible;animation:showMenu .3s ease-in-out 1;animation-fill-mode:both}
+      .main{padding:0 1.25rem}
+      .section__title{gap:1rem}
+      .section__main-title{display:none}
+      .section__select{display:block}
+      .section__tabs{display:none}
+      .hero-dashboard{flex-direction:column;gap:1.25rem;height:auto;margin-bottom:.3125rem;background-image:url(/dz-perfomance-vite/assets/bg@1x.avif);background-size:630px}
+      .no-avif .hero-dashboard{background-image:url(/dz-perfomance-vite/assets/bg@1x.webp)}
+      .no-avif.no-webp .hero-dashboard{background-image:url(/dz-perfomance-vite/assets/bg@2x.png)}
+      .hero-dashboard__primary{padding:1.25rem 1.25rem 0 1.25rem}
+      .hero-dashboard__title{font-size:1.125rem}
+      .hero-dashboard__subtitle{margin:.3125rem 0 0 0;font-size:.75rem}
+      .hero-dashboard__info{margin-top:.9375rem}
+      .hero-dashboard__item-title{font-size:.75rem}
+      .hero-dashboard__item-details{margin-top:.3125rem;font-size:1.5rem}
+      .hero-dashboard__icon{width:1.375rem;height:1.375rem}
+      .hero-dashboard__schedule{flex-direction:row;padding:0 1.25rem 1.25rem 1.25rem}
+      .event-grid{display:flex;padding-bottom:.3125rem;overflow:auto;scrollbar-width:none}
+      .event-grid::-webkit-scrollbar{display:none}
+      .footer{flex-direction:column;align-items:flex-start;gap:.9375rem;height:auto;padding-top:1rem;padding-bottom:1rem}
+      .footer__list{flex-direction:column;align-items:flex-start}
+      .footer__copyright{margin-left:0}
+    }
+    
+    @media (max-width:1024px){
+      .main{grid-template-columns:100%}
+      .main__devices{grid-column-end:2}
+    }
+    
+    /* Interactive elements */
+    .header__menu{display:none;width:3.5rem;height:100%;margin:0 0 0 auto;padding:0;background:50% 50% no-repeat transparent url(/dz-perfomance-vite/assets/icon_list_m@1x.svg);border:none;border-radius:0;appearance:none;cursor:pointer}
+    @media (max-width:768px){.header__menu{display:block}}
+    
+    .header__links{display:flex;gap:1.75rem;margin:0;padding:0;list-style:none}
+    .header__item{margin:0;padding:0}
+    .header__link{font-weight:700;opacity:.6;transition:opacity .15s ease-in-out;text-decoration:none;color:#333}
+    .header__link:hover{opacity:1}
+    .header__link_current{opacity:1}
+    
+    @keyframes showMenu{from{transform:translateY(-1rem);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes hideMenu{from{transform:translateY(0);opacity:1;visibility:visible}to{transform:translateY(-1rem);opacity:0;visibility:hidden}}
+    
+    .section__title{display:flex;align-items:baseline;margin:0 0 1.25rem 0}
+    .section__select{display:none;margin:0 0 0 auto;padding:.4375rem 1.9375rem .5rem 1rem;border:none;border-radius:1.25rem;font-size:.8125rem;font-family:inherit;font-weight:700;background:no-repeat calc(100% - 1rem) 50% #FFD93E url(/dz-perfomance-vite/assets/arrow-down.svg);appearance:none}
+    .section__tabs{display:flex;gap:.625rem;align-items:baseline;margin:0 0 0 .8125rem;padding:0;list-style:none}
+    .section__tab{flex:0 0 auto;padding:.4375rem .9375rem .5rem;font-size:.8125rem;font-weight:700;background:#F7F7F7;border-radius:1024px;cursor:pointer;transition:.25s ease-in-out;transition-property:background-color,box-shadow}
+    .section__tab_active{background:#FFD93E}
+    .section__tab:not(.section__tab_active):hover{background:#fff;box-shadow:0 2px 6px 0 rgba(197,186,186,.5)}
+    
+    .event_slim .event__button{height:6.25rem}
+    .event__button:hover{background:#fff;box-shadow:0 2px 6px 0 rgba(197,186,186,.5)}
+    .event__icon_temp2{background-image:url(/dz-perfomance-vite/assets/icon_temperature_2.svg)}
+    
+    .event-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.9375rem;margin:0;padding:0;list-style:none}
+    .section__panel{padding-bottom:.625rem;overflow-x:auto;scrollbar-width:none}
+    .section__panel::-webkit-scrollbar{display:none}
+    .section__panel_hidden{display:none}
+    .section__panel-list{display:flex;gap:.9375rem;margin:0;padding:0;list-style:none}
+    .section__panel-wrapper{position:relative}
+    .section__arrow{position:absolute;top:0;right:0;width:18px;bottom:10px;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/arrow-left.png);transform:rotate(180deg);cursor:pointer}
+    .section__arrow:hover{opacity:.7}
+    
+    .main__devices{grid-column-start:1;grid-column-end:3}
+    
+    .footer__list{display:flex;align-items:baseline;gap:.9375rem;margin:0;padding:0;list-style:none}
+    .footer__link{font-size:.75rem;color:#858585;transition:opacity .15s ease-in-out;text-decoration:none}
+    .footer__link:hover{color:#000}
+    .footer__copyright{margin-left:auto;font-size:.75rem;color:#858585}
   </style>
   <script>
     // Определение поддержки AVIF
@@ -93,20 +167,10 @@
       }
     }
 
-    // Асинхронная загрузка CSS без блокировки рендеринга
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'styles.css';
-    link.media = 'print';
-    link.onload = function() {
-      this.media = 'all';
-    };
-    document.head.appendChild(link);
+    // Все стили инлайнены, внешние CSS файлы не нужны
   </script>
-  <noscript></noscript>
-  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-CM1AmO2K.js"></script>
-  <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-DJG_os-6.js">
-  <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-qIgCFsM1.css">
+  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-PNu6M5Zo.js"></script>
+  <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-dQk0gtQ5.js">
 </head>
   <body>
     <div id="root"></div>
