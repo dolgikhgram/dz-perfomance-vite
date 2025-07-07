@@ -7,12 +7,28 @@
   <title>Яндекс.Дом</title>
   <link rel="preload" as="font" href="/dz-perfomance-vite/assets/lato.woff2" type="font/woff2" crossorigin="anonymous">
   <style>
-    html{font-size:100%;font-family:Arial,sans-serif;line-height:1.25}body{display:flex;flex-direction:column;font-family:inherit;line-height:inherit;margin:0}html,body{height:100%}
+    /* Font definition */
+    @font-face{font-family:'Lato';font-style:normal;font-weight:400;src:url(/dz-perfomance-vite/assets/lato.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    /* CSS Reset */
+    html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+    article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+    body{line-height:1}
+    ol,ul{list-style:none}
+    blockquote,q{quotes:none}
+    blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+    table{border-collapse:collapse;border-spacing:0}
+    
+    /* Critical Styles */
+    html{font-size:100%;font-family:Arial,sans-serif;line-height:1.25}
+    body{display:flex;flex-direction:column;font-family:inherit;line-height:inherit;margin:0}
+    html,body{height:100%}
+    .a11y-hidden{position:absolute;left:auto;height:1px;width:1px;top:0;overflow:hidden;clip:rect(1px 1px 1px 1px)}
     .header{position:relative;display:flex;flex:0 0 auto;align-items:center;height:5.75rem;margin-bottom:1.875rem;padding:0 2.5rem;font-family:Arial,sans-serif;border-bottom:1px solid #F0F0F0}
     .header__logo{flex:0 0 auto;width:6.75rem;height:2.3125rem;margin-right:3.25rem;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/logo.svg);background-size:contain}
     .main{display:grid;flex:0 0 auto;grid-template-columns:50% 50%;gap:1.625rem;padding:0 2.5rem}
     .section__title-header{margin:0;font-size:1.125rem;font-weight:700;color:#333}
     .hero-dashboard{position:relative;box-sizing:border-box;display:flex;gap:.9375rem;height:20.6875rem;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/bg@2x.png);background-size:1260px;border-radius:1.25rem}
+    .hero-dashboard__primary{flex:1 1 auto;padding:1.25rem 0 1.25rem 1.25rem}
     .hero-dashboard__title{margin:.375rem 0;font-size:1.6875rem;font-weight:700;color:#333}
     .hero-dashboard__subtitle{margin:.375rem 0 0 0;font-size:.875rem;color:#333}
     .hero-dashboard__info{display:flex;gap:1.125rem;margin:1.5625rem 0 0 0;padding:0;list-style:none}
@@ -20,6 +36,8 @@
     .hero-dashboard__item-details{display:flex;align-items:center;margin-top:.25rem;font-size:2.25rem;font-weight:700;color:#333}
     .hero-dashboard__icon{width:1.625rem;height:1.625rem;margin-left:.3125rem;background-position:50% 50%;background-repeat:no-repeat;background-size:contain}
     .hero-dashboard__icon_rain{background-image:url(/dz-perfomance-vite/assets/cloud-drizzle.svg)}
+    .hero-dashboard__schedule{display:flex;flex:0 0 auto;flex-direction:column;gap:.9375rem;margin:0;padding:1.25rem 1.5625rem 1.25rem 0;overflow:auto;list-style:none;scrollbar-width:none}
+    .hero-dashboard__schedule::-webkit-scrollbar{display:none}
     .event__button{position:relative;display:flex;flex-direction:column;justify-content:end;gap:.1875rem;width:100%;min-width:12.5rem;height:7.5rem;margin:0;padding:.875rem;border-radius:1.25rem;border:none;background:#F7F7F7;text-align:left;transition:.25s ease-in-out;transition-property:background-color,box-shadow;cursor:pointer;appearance:none}
     .event__icon{position:absolute;top:.875rem;left:.875rem;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:50% 50%;background-size:contain}
     .event__icon_temp{background-image:url(/dz-perfomance-vite/assets/icon_temperature.svg)}
@@ -28,6 +46,7 @@
     .event__icon_schedule{background-image:url(/dz-perfomance-vite/assets/icon_scheduled.svg)}
     .event__title{margin:0;font-size:.875rem;font-weight:700;color:#333}
     .event__subtitle{font-size:.75rem;color:#858585}
+    .footer{display:flex;flex:0 0 auto;align-items:center;height:4rem;margin-top:auto;padding:0 2.5rem}
   </style>
   <script>
     // Асинхронная загрузка CSS без блокировки рендеринга
@@ -41,8 +60,9 @@
     document.head.appendChild(link);
   </script>
   <noscript></noscript>
-  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-6gxKnnYm.js"></script>
-  <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-CM0m7zQ3.css">
+  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-69kww0e7.js"></script>
+  <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-DJG_os-6.js">
+  <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-ueX5llX5.css">
 </head>
   <body>
     <div id="root"></div>
