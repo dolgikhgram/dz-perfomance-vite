@@ -174,37 +174,37 @@
 
     // Все стили инлайнены, внешние CSS файлы не нужны
 
-    // Агрессивная регистрация Service Worker для принудительного кеширования
+    // Максимально агрессивная регистрация Service Worker v3
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/dz-perfomance-vite/sw.js')
-          .then((registration) => {
-            console.log('Service Worker v2 зарегистрирован:', registration.scope);
-            
-            // Принудительное обновление Service Worker
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (newWorker) {
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    console.log('Service Worker обновлен, перезагружаем кеш');
-                    newWorker.postMessage({ type: 'CACHE_CLEANUP' });
+      navigator.serviceWorker.register('/dz-perfomance-vite/sw.js')
+        .then((registration) => {
+          console.log('Service Worker v3 зарегистрирован:', registration.scope);
+          
+          // Принудительное обновление при обнаружении нового SW
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed') {
+                  console.log('Service Worker v3 установлен, активируем немедленно');
+                  // Перезагружаем страницу для использования нового SW
+                  if (navigator.serviceWorker.controller) {
+                    window.location.reload();
                   }
-                });
-              }
-            });
-            
-            // Периодическая проверка кеша каждые 10 минут
-            setInterval(() => {
-              if (navigator.serviceWorker.controller) {
-                navigator.serviceWorker.controller.postMessage({ type: 'CACHE_CLEANUP' });
-              }
-            }, 10 * 60 * 1000);
-          })
-          .catch((error) => {
-            console.log('Ошибка регистрации Service Worker:', error);
+                }
+              });
+            }
           });
-      });
+          
+          // Принудительная активация SW при первой загрузке
+          if (!navigator.serviceWorker.controller) {
+            console.log('Первая загрузка, активируем Service Worker v3');
+            registration.update();
+          }
+        })
+        .catch((error) => {
+          console.log('Ошибка регистрации Service Worker v3:', error);
+        });
     }
 
     // Принудительное кеширование критических ресурсов через prefetch
