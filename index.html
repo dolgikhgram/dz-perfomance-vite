@@ -5,6 +5,9 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
   <title>Яндекс.Дом</title>
+  <meta name="theme-color" content="#FFD93E">
+  <meta name="description" content="Умный дом - управление устройствами">
+  <link rel="manifest" href="/dz-perfomance-vite/manifest.json">
   <link rel="preload" as="font" href="/dz-perfomance-vite/assets/lato.woff2" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" as="image" href="/dz-perfomance-vite/assets/bg@2x.avif" type="image/avif" media="(min-width: 769px)">
   <link rel="preload" as="image" href="/dz-perfomance-vite/assets/bg@1x.avif" type="image/avif" media="(max-width: 768px)">
@@ -168,9 +171,22 @@
     }
 
     // Все стили инлайнены, внешние CSS файлы не нужны
+
+    // Регистрация Service Worker для кеширования
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/dz-perfomance-vite/sw.js')
+          .then((registration) => {
+            console.log('Service Worker зарегистрирован:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('Ошибка регистрации Service Worker:', error);
+          });
+      });
+    }
   </script>
-  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-PNu6M5Zo.js"></script>
-  <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-dQk0gtQ5.js">
+  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-Bpqy-C50mPiXDd3r.js"></script>
+  <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-dQk0gtQ5sQOyR8tX.js">
 </head>
   <body>
     <div id="root"></div>

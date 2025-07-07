@@ -1,0 +1,38 @@
+# Кеширование статических ресурсов на 1 год
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование изображений на 1 год  
+*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+*.avif  
+  Cache-Control: public, max-age=31536000, immutable
+
+*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование шрифтов на 1 год
+*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+# Кеширование JS и CSS на 1 год
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML файлы - короткое кеширование
+*.html
+  Cache-Control: public, max-age=300
+
+# Корневая страница - без кеширования
+/
+  Cache-Control: no-cache, no-store, must-revalidate 

@@ -1,0 +1,21 @@
+{
+  "name": "Яндекс.Дом",
+  "short_name": "Яндекс.Дом",
+  "description": "Умный дом - управление устройствами",
+  "start_url": "/dz-perfomance-vite/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FFD93E",
+  "icons": [
+    {
+      "src": "/dz-perfomance-vite/assets/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "cache_strategies": {
+    "static_assets": "cache-first",
+    "html": "network-first"
+  }
+} 
