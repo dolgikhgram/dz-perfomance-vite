@@ -6,6 +6,8 @@
         content="width=device-width, initial-scale=1.0">
   <title>Яндекс.Дом</title>
   <link rel="preload" as="font" href="/dz-perfomance-vite/assets/lato.woff2" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" as="image" href="/dz-perfomance-vite/assets/bg@2x.avif" type="image/avif" media="(min-width: 769px)">
+  <link rel="preload" as="image" href="/dz-perfomance-vite/assets/bg@1x.avif" type="image/avif" media="(max-width: 768px)">
   <style>
     /* Font definition */
     @font-face{font-family:'Lato';font-style:normal;font-weight:400;src:url(/dz-perfomance-vite/assets/lato.woff2)format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -27,7 +29,9 @@
     .header__logo{flex:0 0 auto;width:6.75rem;height:2.3125rem;margin-right:3.25rem;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/logo.svg);background-size:contain}
     .main{display:grid;flex:0 0 auto;grid-template-columns:50% 50%;gap:1.625rem;padding:0 2.5rem}
     .section__title-header{margin:0;font-size:1.125rem;font-weight:700;color:#333}
-    .hero-dashboard{position:relative;box-sizing:border-box;display:flex;gap:.9375rem;height:20.6875rem;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/bg@2x.png);background-size:1260px;border-radius:1.25rem}
+    .hero-dashboard{position:relative;box-sizing:border-box;display:flex;gap:.9375rem;height:20.6875rem;background:no-repeat 50% 50% url(/dz-perfomance-vite/assets/bg@2x.avif);background-size:1260px;border-radius:1.25rem}
+    .no-avif .hero-dashboard{background-image:url(/dz-perfomance-vite/assets/bg@2x.webp)}
+    .no-avif.no-webp .hero-dashboard{background-image:url(/dz-perfomance-vite/assets/bg@2x.png)}
     .hero-dashboard__primary{flex:1 1 auto;padding:1.25rem 0 1.25rem 1.25rem}
     .hero-dashboard__title{margin:.375rem 0;font-size:1.6875rem;font-weight:700;color:#333}
     .hero-dashboard__subtitle{margin:.375rem 0 0 0;font-size:.875rem;color:#333}
@@ -49,6 +53,46 @@
     .footer{display:flex;flex:0 0 auto;align-items:center;height:4rem;margin-top:auto;padding:0 2.5rem}
   </style>
   <script>
+    // Определение поддержки AVIF
+    function supportsAVIF() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      return canvas.toDataURL('image/avif').indexOf('data:image/avif') === 0;
+    }
+
+    // Определение поддержки WebP
+    function supportsWebP() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    }
+
+    // Добавление классов для fallback
+    if (!supportsAVIF()) {
+      document.documentElement.classList.add('no-avif');
+      
+      if (!supportsWebP()) {
+        document.documentElement.classList.add('no-webp');
+        // Предзагрузка PNG для браузеров без поддержки WebP и AVIF
+        const pngPreload = document.createElement('link');
+        pngPreload.rel = 'preload';
+        pngPreload.as = 'image';
+        pngPreload.href = '/dz-perfomance-vite/assets/bg@2x.png';
+        pngPreload.type = 'image/png';
+        document.head.appendChild(pngPreload);
+      } else {
+        // Предзагрузка WebP для браузеров с поддержкой WebP, но без AVIF
+        const webpPreload = document.createElement('link');
+        webpPreload.rel = 'preload';
+        webpPreload.as = 'image';
+        webpPreload.href = '/dz-perfomance-vite/assets/bg@2x.webp';
+        webpPreload.type = 'image/webp';
+        document.head.appendChild(webpPreload);
+      }
+    }
+
     // Асинхронная загрузка CSS без блокировки рендеринга
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -60,9 +104,9 @@
     document.head.appendChild(link);
   </script>
   <noscript></noscript>
-  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-69kww0e7.js"></script>
+  <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-CM1AmO2K.js"></script>
   <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-DJG_os-6.js">
-  <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-ueX5llX5.css">
+  <link rel="stylesheet" crossorigin href="/dz-perfomance-vite/assets/index-qIgCFsM1.css">
 </head>
   <body>
     <div id="root"></div>
