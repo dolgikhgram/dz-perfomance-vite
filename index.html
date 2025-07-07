@@ -7,6 +7,8 @@
   <title>Яндекс.Дом</title>
   <meta name="theme-color" content="#FFD93E">
   <meta name="description" content="Умный дом - управление устройствами">
+  <meta http-equiv="Cache-Control" content="public, max-age=300">
+  <meta http-equiv="Expires" content="300">
   <link rel="manifest" href="/dz-perfomance-vite/manifest.json">
   <link rel="preload" as="font" href="/dz-perfomance-vite/assets/lato.woff2" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" as="image" href="/dz-perfomance-vite/assets/bg@2x.avif" type="image/avif" media="(min-width: 769px)">
@@ -172,18 +174,56 @@
 
     // Все стили инлайнены, внешние CSS файлы не нужны
 
-    // Регистрация Service Worker для кеширования
+    // Агрессивная регистрация Service Worker для принудительного кеширования
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/dz-perfomance-vite/sw.js')
           .then((registration) => {
-            console.log('Service Worker зарегистрирован:', registration.scope);
+            console.log('Service Worker v2 зарегистрирован:', registration.scope);
+            
+            // Принудительное обновление Service Worker
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('Service Worker обновлен, перезагружаем кеш');
+                    newWorker.postMessage({ type: 'CACHE_CLEANUP' });
+                  }
+                });
+              }
+            });
+            
+            // Периодическая проверка кеша каждые 10 минут
+            setInterval(() => {
+              if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'CACHE_CLEANUP' });
+              }
+            }, 10 * 60 * 1000);
           })
           .catch((error) => {
             console.log('Ошибка регистрации Service Worker:', error);
           });
       });
     }
+
+    // Принудительное кеширование критических ресурсов через prefetch
+    const criticalResources = [
+      '/dz-perfomance-vite/assets/bg@2x.avif',
+      '/dz-perfomance-vite/assets/bg@1x.avif', 
+      '/dz-perfomance-vite/assets/lato.woff2'
+    ];
+    
+    criticalResources.forEach(resource => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = resource;
+      link.as = resource.includes('.woff2') ? 'font' : 'image';
+      if (resource.includes('.woff2')) {
+        link.crossOrigin = 'anonymous';
+      }
+      document.head.appendChild(link);
+    });
   </script>
   <script type="module" crossorigin src="/dz-perfomance-vite/assets/index-Bpqy-C50mPiXDd3r.js"></script>
   <link rel="modulepreload" crossorigin href="/dz-perfomance-vite/assets/vendor-dQk0gtQ5sQOyR8tX.js">

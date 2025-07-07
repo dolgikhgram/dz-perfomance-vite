@@ -1,0 +1,61 @@
+# Jekyll конфигурация для GitHub Pages
+title: "Яндекс.Дом"
+description: "Умный дом - управление устройствами"
+
+# Базовая конфигурация
+baseurl: "/dz-perfomance-vite"
+url: "https://dolgikhgram.github.io"
+
+# Отключаем Jekyll обработку для SPA
+include: [".htaccess", "_headers"]
+exclude:
+  - "node_modules/"
+  - "package*.json"
+  - "vite.config.js"
+  - "src/"
+  - "public/"
+  - ".git/"
+  - "README.md"
+
+# Настройки сборки
+markdown: kramdown
+highlighter: rouge
+
+# Кеширование плагинов
+plugins:
+  - jekyll-sitemap
+
+# Принудительные заголовки кеширования через Jekyll
+defaults:
+  - scope:
+      path: "assets"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.js"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.css"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.woff2"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.png"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.webp"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.avif"
+    values:
+      cache_control: "public, max-age=31536000, immutable"
+  - scope:
+      path: "*.svg"
+    values:
+      cache_control: "public, max-age=31536000, immutable" 

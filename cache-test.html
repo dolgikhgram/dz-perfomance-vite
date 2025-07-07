@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест кеширования - Яндекс.Дом</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+    .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+    .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+    .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    .resource-list { max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; }
+    button { padding: 10px 20px; margin: 10px 0; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>🚀 Тест эффективности кеширования</h1>
+  <p>Эта страница проверяет работу всех систем кеширования.</p>
+  
+  <div id="results"></div>
+  
+  <button onclick="runCacheTest()">Запустить тест кеширования</button>
+  <button onclick="checkServiceWorker()">Проверить Service Worker</button>
+  <button onclick="testResourceCaching()">Тест кеширования ресурсов</button>
+  
+  <div id="resourceList" class="resource-list" style="display: none;">
+    <h3>Статус кеширования ресурсов:</h3>
+    <div id="resourceStatus"></div>
+  </div>
+
+  <script>
+    function addResult(message, type = 'info') {
+      const results = document.getElementById('results');
+      const div = document.createElement('div');
+      div.className = `test-result ${type}`;
+      div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+      results.appendChild(div);
+    }
+
+    async function runCacheTest() {
+      addResult('🔄 Начинаем тест кеширования...', 'info');
+      
+      // Проверка Service Worker
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          addResult('✅ Service Worker активен: ' + registration.scope, 'success');
+          
+          // Проверка кеша
+          const cacheNames = await caches.keys();
+          const yaCache = cacheNames.find(name => name.includes('yandex-home'));
+          
+          if (yaCache) {
+            const cache = await caches.open(yaCache);
+            const cachedRequests = await cache.keys();
+            addResult(`✅ Найден кеш "${yaCache}" с ${cachedRequests.length} ресурсами`, 'success');
+            
+            // Проверяем метаданные кеша
+            const metadata = await cache.match('cache-metadata');
+            if (metadata) {
+              const metaData = await metadata.json();
+              const timeLeft = Math.round((metaData.expiry - Date.now()) / (1000 * 60 * 60 * 24));
+              addResult(`✅ Время жизни кеша: ${timeLeft} дней (версия ${metaData.version})`, 'success');
+            }
+          } else {
+            addResult('⚠️ Кеш Яндекс.Дом не найден', 'warning');
+          }
+        } catch (error) {
+          addResult('❌ Ошибка при проверке Service Worker: ' + error.message, 'error');
+        }
+      } else {
+        addResult('❌ Service Worker не поддерживается', 'error');
+      }
+
+      // Проверка localStorage кеширования
+      const cacheInfo = localStorage.getItem('app-cache-info');
+      if (cacheInfo) {
+        addResult('✅ Локальное кеширование активно', 'success');
+      } else {
+        localStorage.setItem('app-cache-info', JSON.stringify({
+          created: Date.now(),
+          version: '2.0.0'
+        }));
+        addResult('📝 Создана информация о локальном кеше', 'info');
+      }
+    }
+
+    async function checkServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.register('/dz-perfomance-vite/sw.js');
+          addResult('🔄 Service Worker перерегистрирован', 'info');
+          
+          registration.addEventListener('updatefound', () => {
+            addResult('🆕 Найдено обновление Service Worker', 'info');
+          });
+          
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'CACHE_CLEANUP' });
+            addResult('🧹 Отправлена команда очистки кеша', 'info');
+          }
+          
+        } catch (error) {
+          addResult('❌ Ошибка регистрации Service Worker: ' + error.message, 'error');
+        }
+      }
+    }
+
+    async function testResourceCaching() {
+      const resources = [
+        '/dz-perfomance-vite/assets/bg@2x.avif',
+        '/dz-perfomance-vite/assets/bg@1x.avif',
+        '/dz-perfomance-vite/assets/lato.woff2',
+        '/dz-perfomance-vite/assets/logo.svg'
+      ];
+
+      const resourceList = document.getElementById('resourceList');
+      const resourceStatus = document.getElementById('resourceStatus');
+      resourceList.style.display = 'block';
+      resourceStatus.innerHTML = '';
+
+      addResult('🔍 Тестируем кеширование критических ресурсов...', 'info');
+
+      for (const resource of resources) {
+        try {
+          const startTime = performance.now();
+          const response = await fetch(resource);
+          const endTime = performance.now();
+          const loadTime = Math.round(endTime - startTime);
+          
+          const cacheStatus = response.headers.get('cache-control') || 'Не указано';
+          const fromCache = loadTime < 10 ? 'Из кеша' : 'Из сети';
+          
+          const statusDiv = document.createElement('div');
+          statusDiv.innerHTML = `
+            <strong>${resource.split('/').pop()}:</strong> 
+            ${loadTime}мс - ${fromCache} 
+            <small>(Cache-Control: ${cacheStatus})</small>
+          `;
+          statusDiv.style.color = loadTime < 10 ? '#155724' : '#856404';
+          resourceStatus.appendChild(statusDiv);
+          
+          if (loadTime < 10) {
+            addResult(`✅ ${resource.split('/').pop()}: ${loadTime}мс (кешировано)`, 'success');
+          } else {
+            addResult(`⚠️ ${resource.split('/').pop()}: ${loadTime}мс (не кешировано)`, 'warning');
+          }
+          
+        } catch (error) {
+          addResult(`❌ Ошибка загрузки ${resource}: ${error.message}`, 'error');
+        }
+      }
+    }
+
+    // Автоматический запуск базового теста при загрузке
+    window.addEventListener('load', () => {
+      setTimeout(runCacheTest, 1000);
+    });
+  </script>
+</body>
+</html> 
